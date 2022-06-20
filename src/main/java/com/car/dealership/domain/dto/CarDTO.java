@@ -1,18 +1,8 @@
-package com.car.dealership.domain.entities;
+package com.car.dealership.domain.dto;
 
-import java.util.List;
+public class CarDTO {
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "cars")
-public class Car extends BaseEntity {
-    public Car() {
-    }
+    private String id;
 
     private String modelName;
 
@@ -34,9 +24,15 @@ public class Car extends BaseEntity {
 
     private Double price;
 
-    private List<CarPicture> carPictures;
+    private String dealership;
 
-    private Dealership dealership;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getModelName() {
         return modelName;
@@ -118,23 +114,12 @@ public class Car extends BaseEntity {
         this.price = price;
     }
 
-    @OneToMany
-    @JoinColumn(name = "picturesid", nullable = false)
-    public List<CarPicture> getCarPictures() {
-        return carPictures;
-    }
-
-    public void setCarPictures(List<CarPicture> picturePaths) {
-        this.carPictures = picturePaths;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "dealershipid", nullable = false)
-    public Dealership getDealership() {
+    public String getDealership() {
         return dealership;
     }
 
-    public void setDealership(Dealership dealership) {
+    public void setDealership(String dealership) {
         this.dealership = dealership;
     }
 }
+

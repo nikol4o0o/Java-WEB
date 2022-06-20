@@ -26,7 +26,6 @@ public interface UserService extends UserDetailsService {
 
     boolean deleteByUsername(String username, Authentication authentication);
 
-
     User findByUsername(String username);
 
     User findById(String id);

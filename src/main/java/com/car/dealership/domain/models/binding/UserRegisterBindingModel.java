@@ -17,7 +17,7 @@ public class UserRegisterBindingModel {
     public UserRegisterBindingModel() {
     }
 
-    @Size(min = 6, max = 100,message = "{validation.username.wrongSize}")
+    @Size(min = 6, max = 100,message = "Username should be between 6 and 100 chars")
     @NotNull
     public String getUsername() {
         return username;
@@ -27,7 +27,7 @@ public class UserRegisterBindingModel {
         this.username = username;
     }
 
-    @Size(min = 6, max = 100, message = "{validation.username.invalidEmail}")
+    @Size(min = 6, max = 100, message = "Invalid email format")
     @NotNull
     @Pattern(message = "{validation.username.invalidEmail}", regexp = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])")
     public String getEmail() {
@@ -38,7 +38,7 @@ public class UserRegisterBindingModel {
         this.email = email;
     }
 
-    @Size(min = 6, max = 100, message = "{validation.username.invalidPassword}")
+    @Size(min = 6, max = 100, message = "Invalid password")
     @NotNull
     public String getPassword() {
         return password;

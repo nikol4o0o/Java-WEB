@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.car.dealership.domain.dto.DealershipDTO;
 import com.car.dealership.domain.entities.Car;
 import com.car.dealership.domain.entities.Dealership;
 import com.car.dealership.service.CarService;
@@ -28,22 +29,22 @@ public class DealershipController extends BaseController {
     }
 
     @GetMapping
-    List<Dealership> getAllDealerships() {
+    List<DealershipDTO> getAllDealerships() {
         return dealershipService.getAllDealerships();
     }
 
     @PostMapping
-    Dealership addDealership(@RequestBody Dealership dealership) {
+    DealershipDTO addDealership(@RequestBody DealershipDTO dealership) {
         return dealershipService.addDealership(dealership);
     }
 
     @GetMapping("/{id}")
-    Dealership getSingleDealership(@PathVariable String id) {
+    DealershipDTO getSingleDealership(@PathVariable String id) {
         return this.dealershipService.getById(id);
     }
 
     @PutMapping("/{id}")
-    Dealership modifyDealership(@RequestBody Dealership modifiedDealership, @PathVariable String id) {
+    DealershipDTO modifyDealership(@RequestBody DealershipDTO modifiedDealership, @PathVariable String id) {
         return this.dealershipService.updateDealership(id, modifiedDealership);
     }
 

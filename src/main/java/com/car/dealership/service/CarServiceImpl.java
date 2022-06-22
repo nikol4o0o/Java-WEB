@@ -1,27 +1,38 @@
 package com.car.dealership.service;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.car.dealership.domain.dto.CarDTO;
 import com.car.dealership.domain.entities.Car;
+import com.car.dealership.domain.entities.CarPicture;
 import com.car.dealership.repository.CarRepository;
+import com.car.dealership.repository.DealershipRepository;
 
 @Service
 public class CarServiceImpl implements CarService {
 
+    private static final String UPLOADED_FOLDER =  Paths.get(System.getProperty("user.dir")) + "\\pictures";;
+
     private final CarRepository carRepository;
-    private final DealershipService dealershipService;
+    private final DealershipRepository dealershipRepository;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public CarServiceImpl(CarRepository carRepository, DealershipService dealershipService, ModelMapper modelMapper) {
+    public CarServiceImpl(CarRepository carRepository, DealershipRepository dealershipRepository, ModelMapper modelMapper) {
         this.carRepository = carRepository;
-        this.dealershipService = dealershipService;
+        this.dealershipRepository = dealershipRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -32,17 +43,46 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public CarDTO getById(String id) {
-        return convertToDto(this.carRepository.findById(id).get());
+        Optional<Car> car = this.carRepository.findById(id);
+        if(car.isEmpty()){
+            throw new NullPointerException("Car not found!");
+        }
+        return convertToDto(car.get());
     }
 
     @Override
     public void deleteCar(String id) {
+        //todo delete car pictures
         this.carRepository.deleteById(id);
     }
 
     @Override
     public CarDTO addCar(CarDTO car) {
+        for (MultipartFile picture :car.getPictures()) {
+            if (!picture.isEmpty()) {
+                try{
+                    byte[] bytes = picture.getBytes();
+                    Path path = Paths.get(UPLOADED_FOLDER +"\\"+ picture.getOriginalFilename());
+                    if (!Files.exists(path.getParent()))
+                        Files.createDirectories(path.getParent());
+                    Files.write(path, bytes);
+                }catch (Exception e){
+                    System.out.println("Cannot save picture");
+                }
+
+            }
+        }
         Car carEntity = convertToEntity(car);
+        Set<CarPicture> pictures = new HashSet<>();
+        carEntity.setCarPictures(pictures);
+        // carEntity.setCarPictures(null);
+        //Car dbCar = this.carRepository.saveAndFlush(carEntity);
+
+        for (MultipartFile picture :car.getPictures()) {
+            CarPicture carPicture = new CarPicture();
+            carPicture.setPicturePath(Paths.get(UPLOADED_FOLDER +"\\"+  picture.getOriginalFilename()).toString());
+            carEntity.addPicture(carPicture);
+        }
         this.carRepository.saveAndFlush(carEntity);
         return car;
     }
@@ -78,9 +118,12 @@ public class CarServiceImpl implements CarService {
     }
 
     private Car convertToEntity(CarDTO carDto) {
-        // TODO add validation and check if it exists  ....
         Car car = modelMapper.map(carDto, Car.class);
-        car.setDealership(dealershipService.getById(carDto.getDealership()));
+        String dealershipId = carDto.getDealership();
+        if(dealershipId == null || dealershipRepository.findById(dealershipId).isEmpty()){
+           throw new NullPointerException("No dealership found!");
+        }
+        car.setDealership(dealershipRepository.findById(dealershipId).get());
         return car;
     }
 }

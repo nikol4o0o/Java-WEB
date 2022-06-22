@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
 
 
     private String getUserAuthority(String userId) {
-        if (!this.userRepository.findById(userId).isPresent()) {
+        if (this.userRepository.findById(userId).isEmpty()) {
             return null;
         }
         if (!this.userRepository.findById(userId).get().getAuthorities().stream().findFirst().isPresent()) {
@@ -68,8 +68,9 @@ public class UserServiceImpl implements UserService {
         } else {
             userEntity.setAuthorities(this.getAuthorities("USER"));
         }
-
         try {
+            // TODO all users will be enabled on creation
+            userEntity.setEnabled(true);
             this.userRepository.save(userEntity);
         } catch (Exception ignored) {
             return false;

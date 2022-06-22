@@ -1,7 +1,11 @@
 package com.car.dealership.domain.entities;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -34,7 +38,7 @@ public class Car extends BaseEntity {
 
     private Double price;
 
-    private List<CarPicture> carPictures;
+    private Set<CarPicture> carPictures;
 
     private Dealership dealership;
 
@@ -118,14 +122,14 @@ public class Car extends BaseEntity {
         this.price = price;
     }
 
-    @OneToMany
-    @JoinColumn(name = "picturesid", nullable = false)
-    public List<CarPicture> getCarPictures() {
+    @OneToMany(cascade=CascadeType.ALL)
+    @JoinColumn(name = "carpictureid")
+    public Set<CarPicture> getCarPictures() {
         return carPictures;
     }
 
-    public void setCarPictures(List<CarPicture> picturePaths) {
-        this.carPictures = picturePaths;
+    public void setCarPictures(Set<CarPicture> carPictures) {
+        this.carPictures = carPictures;
     }
 
     @ManyToOne
@@ -136,5 +140,10 @@ public class Car extends BaseEntity {
 
     public void setDealership(Dealership dealership) {
         this.dealership = dealership;
+    }
+
+    public void addPicture(CarPicture picture){
+        picture.setCar(this);
+        carPictures.add(picture);
     }
 }

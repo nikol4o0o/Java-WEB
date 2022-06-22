@@ -1,5 +1,11 @@
 package com.car.dealership.domain.dto;
 
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import com.car.dealership.domain.entities.CarPicture;
+
 public class CarDTO {
 
     private String id;
@@ -25,6 +31,8 @@ public class CarDTO {
     private Double price;
 
     private String dealership;
+
+    private List<MultipartFile> pictures;
 
     public String getId() {
         return id;
@@ -120,6 +128,14 @@ public class CarDTO {
 
     public void setDealership(String dealership) {
         this.dealership = dealership;
+    }
+
+    public List<MultipartFile> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<MultipartFile> pictures) {
+        this.pictures = pictures;
     }
 }
 

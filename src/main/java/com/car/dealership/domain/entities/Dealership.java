@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -20,6 +21,8 @@ public class Dealership extends BaseEntity {
     private String companyOwner;
 
     private Set<Car> cars;
+
+    private User user;
 
     public String getName() {
         return name;
@@ -54,5 +57,12 @@ public class Dealership extends BaseEntity {
         this.cars = cars;
     }
 
+    @OneToOne
+    public User getUser() {
+        return user;
+    }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

@@ -1,8 +1,6 @@
 package com.car.dealership.domain.entities;
 
-import org.hibernate.annotations.Type;
 import org.springframework.security.core.userdetails.UserDetails;
-
 
 import javax.persistence.*;
 import java.util.Set;
@@ -26,6 +24,8 @@ public class User extends BaseEntity implements UserDetails {
     private boolean isEnabled;
 
     private Set<UserRole> authorities;
+
+    private Dealership dealership;
 
     public User() {
         this.isEnabled=false;
@@ -79,7 +79,6 @@ public class User extends BaseEntity implements UserDetails {
         this.authorities = authorities;
     }
 
-
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -116,4 +115,12 @@ public class User extends BaseEntity implements UserDetails {
         this.isEnabled = enabled;
     }
 
+    @OneToOne
+    public Dealership getDealership() {
+        return dealership;
+    }
+
+    public void setDealership(Dealership dealership) {
+        this.dealership = dealership;
+    }
 }

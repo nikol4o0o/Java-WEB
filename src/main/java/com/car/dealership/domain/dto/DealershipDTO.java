@@ -1,30 +1,25 @@
-package com.car.dealership.domain.entities;
+package com.car.dealership.domain.dto;
 
 import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.car.dealership.domain.entities.BaseEntity;
+import com.car.dealership.domain.entities.Car;
+import com.car.dealership.domain.entities.User;
 
-@Entity
-@Table(name = "dealerships")
-public class Dealership extends BaseEntity {
+public class DealershipDTO {
 
-    public Dealership() {
-    }
-
+    private String id;
     private String name;
-
     private Integer yearFounded;
-
     private String companyOwner;
-
     private Set<Car> cars;
+    private String user;
 
-    private User user;
+    public DealershipDTO() {
+    }
 
     public String getName() {
         return name;
@@ -50,7 +45,6 @@ public class Dealership extends BaseEntity {
         this.companyOwner = companyOwner;
     }
 
-    @OneToMany( mappedBy = "dealership")
     public Set<Car> getCars() {
         return cars;
     }
@@ -59,12 +53,19 @@ public class Dealership extends BaseEntity {
         this.cars = cars;
     }
 
-    @OneToOne
-    public User getUser() {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(String user) {
         this.user = user;
     }
 }

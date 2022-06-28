@@ -1,5 +1,6 @@
 package com.car.dealership.domain.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -8,15 +9,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity(name = "CarPicture")
 @Table(name = "picture")
+@JsonIgnoreProperties({"car"})
 public class CarPicture {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "car_id")
     private Car car;
 

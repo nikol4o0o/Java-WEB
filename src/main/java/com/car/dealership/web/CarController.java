@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.car.dealership.domain.dto.CarDTO;
+import com.car.dealership.domain.dto.CarImagesAsPathsDTO;
 import com.car.dealership.domain.entities.Car;
 import com.car.dealership.service.CarService;
 
 @RestController
-@RequestMapping("cars")
+@RequestMapping("/api/cars")
+@CrossOrigin(origins = "*", maxAge = 3600, allowCredentials="true")
 public class CarController extends BaseController {
     private final CarService carService;
 
@@ -29,7 +32,7 @@ public class CarController extends BaseController {
     }
 
     @GetMapping
-    List<CarDTO> getAllCars() {
+    List<CarImagesAsPathsDTO> getAllCars() {
         return carService.getAllCars();
     }
 
@@ -39,12 +42,12 @@ public class CarController extends BaseController {
     }
 
     @GetMapping("/{id}")
-    CarDTO getSingleCar(@PathVariable String id) {
+    CarImagesAsPathsDTO getSingleCar(@PathVariable String id) {
         return this.carService.getById(id);
     }
 
     @PutMapping("/{id}")
-    CarDTO modifyCar(@RequestBody CarDTO modifiedCar, @PathVariable String id) {
+    CarImagesAsPathsDTO modifyCar(@RequestBody CarDTO modifiedCar, @PathVariable String id) {
         return this.carService.updateCar(id, modifiedCar);
     }
 

@@ -3,6 +3,7 @@ package com.car.dealership.web;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +20,8 @@ import com.car.dealership.service.CarService;
 import com.car.dealership.service.DealershipService;
 
 @RestController
-@RequestMapping("dealerships")
+@RequestMapping("/api/dealerships")
+@CrossOrigin(origins = "*", maxAge = 3600, allowCredentials="true")
 public class DealershipController extends BaseController {
     private final DealershipService dealershipService;
 

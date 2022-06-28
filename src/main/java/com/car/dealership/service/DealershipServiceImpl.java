@@ -9,23 +9,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.car.dealership.domain.dto.DealershipDTO;
-import com.car.dealership.domain.entities.Car;
 import com.car.dealership.domain.entities.Dealership;
 import com.car.dealership.repository.DealershipRepository;
+import com.car.dealership.repository.UserRepository;
 
 @Service
 public class DealershipServiceImpl implements DealershipService {
 
     private final DealershipRepository dealershipRepository;
+    private final UserRepository userRepository;
     private final ModelMapper modelMapper;
-    private final UserService userService;
 
     @Autowired
-    public DealershipServiceImpl(DealershipRepository dealershipRepository, ModelMapper modelMapper,
-            UserService userService) {
+    public DealershipServiceImpl(DealershipRepository dealershipRepository, UserRepository userRepository,
+            ModelMapper modelMapper) {
         this.dealershipRepository = dealershipRepository;
+        this.userRepository = userRepository;
         this.modelMapper = modelMapper;
-        this.userService = userService;
     }
 
     @Override
@@ -81,10 +81,10 @@ public class DealershipServiceImpl implements DealershipService {
     private Dealership convertToEntity(DealershipDTO dealershipDto) {
         Dealership dealership = modelMapper.map(dealershipDto, Dealership.class);
         String userId = dealershipDto.getUser();
-        if (userId == null || userService.findById(userId) == null) {
+        if (userId == null || !userRepository.findById(userId).isPresent()) {
             throw new NullPointerException("No user found!");
         }
-        dealership.setUser(userService.findById(userId));
+        dealership.setUser(userRepository.findById(userId).get());
         return dealership;
     }
 }

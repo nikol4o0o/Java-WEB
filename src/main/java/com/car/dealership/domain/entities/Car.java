@@ -1,46 +1,34 @@
 package com.car.dealership.domain.entities;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "cars")
 public class Car extends BaseEntity {
+    private String modelName;
+    private String brand;
+    private String transmission;
+    private String type;
+    private String color;
+    private Integer manufactureYear;
+    private Integer emissionStandard;
+    private Integer horsePower;
+    private Integer truckCapacity;
+    private Double price;
+    private Set<CarPicture> carPictures;
+    private Dealership dealership;
+
     public Car() {
     }
-
-    private String modelName;
-
-    private String brand;
-
-    private String transmission;
-
-    private String type;
-
-    private String color;
-
-    private Integer manufactureYear;
-
-    private Integer emissionStandard;
-
-    private Integer horsePower;
-
-    private Integer truckCapacity;
-
-    private Double price;
-
-    private Set<CarPicture> carPictures;
-
-    private Dealership dealership;
 
     public String getModelName() {
         return modelName;
@@ -122,7 +110,7 @@ public class Car extends BaseEntity {
         this.price = price;
     }
 
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany(cascade= CascadeType.ALL)
     @JoinColumn(name = "carpictureid")
     public Set<CarPicture> getCarPictures() {
         return carPictures;
@@ -134,6 +122,7 @@ public class Car extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "dealershipid", nullable = false)
+    @JsonIgnore
     public Dealership getDealership() {
         return dealership;
     }
@@ -142,7 +131,7 @@ public class Car extends BaseEntity {
         this.dealership = dealership;
     }
 
-    public void addPicture(CarPicture picture){
+    public void addPicture(CarPicture picture) {
         picture.setCar(this);
         carPictures.add(picture);
     }

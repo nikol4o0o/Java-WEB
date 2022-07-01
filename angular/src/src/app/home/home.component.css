@@ -1,0 +1,16 @@
+H3 {
+  text-align: center
+}
+
+#btnAddDealership {
+    margin-bottom: 2%;
+}
+
+#divAddDealership{
+    display: flex; 
+    justify-content: flex-end;
+}
+#formsContainer{
+    display: flex;
+    justify-content: center;
+}

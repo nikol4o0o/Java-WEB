@@ -1,0 +1,57 @@
+<div class="container">
+  <header>
+    <h3>Dealerships</h3>
+    <div id="divAddDealership">
+      <button id="btnAddDealership" class="btn btn-success" (click)="showAddDealershipForm()">Add New
+        Dealership</button>
+        </div>
+  </header>
+
+
+
+<mat-card class="card" *ngFor="let dealership of dealerships">
+  <mat-card-title>Name: {{dealership.name}}</mat-card-title>
+  <mat-card-subtitle>Owner: {{dealership.companyOwner}}</mat-card-subtitle>
+  <mat-card-content>
+    <p>Year founded: {{dealership.yearFounded}}</p>
+    <p>Cars available: {{dealership.cars.length}}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button type="button" class="btn btn-secondary btn-sm mr-2" (click)="checkDealershipCars($event, dealership)">Check
+      cars</button>
+    <button type="button" class="btn btn-info btn-sm mr-2" (click)="showEditDealershipForm(dealership)">Edit</button>
+    <button type="button" class="btn btn-danger btn-sm" (click)="removeDealership(dealership)">Delete</button>
+  </mat-card-actions>
+</mat-card>
+</div>
+
+<div class="container" id="formsContainer">
+  <div class="row">
+    <div class="col-md-12 mt-4">
+      <div class="mt-4">
+        <form *ngIf="dealershipForm">
+          <h2>Add New Dealership</h2>
+          <p>Name: <input type="text" name="name" [(ngModel)]="newDealership.name" /></p>
+          <p>Company Owner: <input type="text" name="companyOwner" [(ngModel)]="newDealership.companyOwner" /></p>
+          <p>Year Founded: <input type="text" name="yearFounded" [(ngModel)]="newDealership.yearFounded" /></p>
+          <p>
+            <button type="button" class="btn btn-primary mr-2" (click)="saveDealership(newDealership)">Submit</button>
+            <button type="button" class="btn btn-warning" (click)="cancelNewDealership()">Cancel</button>
+          </p>
+        </form>
+
+        <form *ngIf="editDealershipForm">
+          <h2>Edit Dealership Details</h2>
+          <p>Name: <input type="text" name="name" [(ngModel)]="editedDealership.name" /></p>
+          <p>Company Owner: <input type="text" name="companyOwner" [(ngModel)]="editedDealership.companyOwner" /></p>
+          <p>Year Founded: <input type="text" name="yearFounded" [(ngModel)]="editedDealership.yearFounded" /></p>
+          <p>
+            <button type="button" class="btn btn-primary mr-2" (click)="updateDealership()">Submit</button>
+            <button type="button" class="btn btn-warning" (click)="cancelEdits()">Cancel</button>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

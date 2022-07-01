@@ -1,30 +1,19 @@
 package com.car.dealership.repository;
 
-import com.car.dealership.domain.entities.User;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.LinkedHashSet;
-import java.util.Optional;
+import com.car.dealership.domain.entities.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
     Optional<User> findByUsername(String username);
 
-    Optional<User> findByEmail(String email);
+    Optional<User> findById(String id);
 
-    @Query(value = "SELECT * from users", nativeQuery = true)
-    LinkedHashSet<User> getAllUsers();
+    Boolean existsByUsername(String username);
 
-    @Modifying
-    @Query(value = "DELETE FROM users_roles Where users_roles.user_id=?1", nativeQuery = true)
-    void deleteUserInRoles(String id);
-
-    @Modifying
-    @Query(value = "DELETE FROM users Where users.id=?1", nativeQuery = true)
-    void deleteUserInUsers(String id);
-
+    Boolean existsByEmail(String email);
 }

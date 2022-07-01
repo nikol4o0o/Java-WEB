@@ -1,57 +1,89 @@
 package com.car.dealership.domain.entities;
 
-import org.springframework.security.core.userdetails.UserDetails;
-
-import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Table(name = "users")
-public class User extends BaseEntity implements UserDetails {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.GenericGenerator;
+
+@Entity
+@Table(name = "users",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "username"),
+                @UniqueConstraint(columnNames = "email")
+        })
+public class User {
+
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "id")
+    private String id;
+
+    @NotBlank
+    @Size(max = 20)
     private String username;
 
-    private String password;
-
+    @NotBlank
+    @Size(max = 50)
+    @Email
     private String email;
 
-    private boolean isAccountNonExpired;
+    @NotBlank
+    @Size(max = 120)
+    private String password;
 
-    private boolean isAccountNonLocked;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
-    private boolean isCredentialsNonExpired;
-
-    private boolean isEnabled;
-
-    private Set<UserRole> authorities;
-
+    @OneToOne
     private Dealership dealership;
 
     public User() {
-        this.isEnabled=false;
     }
 
-    @Override
-    @Column(name = "username", nullable = false, unique = true)
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getUsername() {
-        return this.username;
+        return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
     }
 
-    @Override
-    @Column(name = "password", nullable = false)
-    public String getPassword() {
-        return this.password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    @Column(name = "email", nullable = false, unique = true)
     public String getEmail() {
         return email;
     }
@@ -60,62 +92,22 @@ public class User extends BaseEntity implements UserDetails {
         this.email = email;
     }
 
-    @Override
-    @ManyToMany(cascade = CascadeType.ALL
-            , targetEntity = UserRole.class
-            , fetch = FetchType.EAGER
-
-    )
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    public Set<UserRole> getAuthorities() {
-        return this.authorities;
+    public String getPassword() {
+        return password;
     }
 
-    public void setAuthorities(Set<UserRole> authorities) {
-        this.authorities = authorities;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return this.isEnabled;
-    }
-
-    public void setAccountNonExpired(boolean accountNonExpired) {
-        isAccountNonExpired = accountNonExpired;
-    }
-
-    public void setAccountNonLocked(boolean accountNonLocked) {
-        isAccountNonLocked = accountNonLocked;
-    }
-
-    public void setCredentialsNonExpired(boolean credentialsNonExpired) {
-        isCredentialsNonExpired = credentialsNonExpired;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.isEnabled = enabled;
-    }
-
-    @OneToOne
     public Dealership getDealership() {
         return dealership;
     }

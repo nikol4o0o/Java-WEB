@@ -1,33 +1,43 @@
-package com.car.dealership.domain.entities;
+package com.car.dealership.domain.dto;
 
-import java.util.Set;
+import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+public class CarImagesAsPathsDTO {
 
-@Entity
-@Table(name = "cars")
-public class Car extends BaseEntity {
+    private String id;
+
     private String modelName;
-    private String brand;
-    private String transmission;
-    private String type;
-    private String color;
-    private Integer manufactureYear;
-    private Integer emissionStandard;
-    private Integer horsePower;
-    private Integer truckCapacity;
-    private Double price;
-    private Set<CarPicture> carPictures;
-    private Dealership dealership;
 
-    public Car() {
+    private String brand;
+
+    private String transmission;
+
+    private String type;
+
+    private String color;
+
+    private Integer manufactureYear;
+
+    private Integer emissionStandard;
+
+    private Integer horsePower;
+
+    private Integer truckCapacity;
+
+    private Double price;
+
+    private String dealership;
+
+    private List<String> pictures;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getModelName() {
@@ -110,29 +120,20 @@ public class Car extends BaseEntity {
         this.price = price;
     }
 
-    @OneToMany(cascade= CascadeType.ALL)
-    @JoinColumn(name = "carpictureid")
-    public Set<CarPicture> getCarPictures() {
-        return carPictures;
-    }
-
-    public void setCarPictures(Set<CarPicture> carPictures) {
-        this.carPictures = carPictures;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "dealershipid", nullable = false)
-    @JsonIgnore
-    public Dealership getDealership() {
+    public String getDealership() {
         return dealership;
     }
 
-    public void setDealership(Dealership dealership) {
+    public void setDealership(String dealership) {
         this.dealership = dealership;
     }
 
-    public void addPicture(CarPicture picture) {
-        picture.setCar(this);
-        carPictures.add(picture);
+    public List<String> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<String> pictures) {
+        this.pictures = pictures;
     }
 }
+

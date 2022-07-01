@@ -1,20 +1,19 @@
 package com.car.dealership.service;
 
 import java.util.List;
-import java.util.Set;
 
 import com.car.dealership.domain.dto.CarDTO;
-import com.car.dealership.domain.entities.Car;
+import com.car.dealership.domain.dto.CarImagesAsPathsDTO;
 
 public interface CarService {
 
-    List<CarDTO> getAllCars();
+    List<CarImagesAsPathsDTO> getAllCars();
 
-    CarDTO getById(String id);
+    CarImagesAsPathsDTO getById(String id);
 
     void deleteCar(String id);
 
     CarDTO addCar(CarDTO car);
 
-    CarDTO updateCar(String id, CarDTO modifiedCar);
+    CarImagesAsPathsDTO updateCar(String id, CarDTO modifiedCar);
 }

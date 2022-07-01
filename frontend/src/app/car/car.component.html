@@ -1,0 +1,78 @@
+<div class="container mt-5 mb-5">
+  <div class="card">
+    <div class="row g-0">
+      <div class="col-md-6 border-end">
+        <div class="d-flex flex-column justify-content-center">
+          <div class="main_image"> <img
+              src="https://stimg.cardekho.com/images/carexteriorimages/930x620/Porsche/Panamera/8329/1623301989193/front-left-side-47.jpg?tr=w-880,h-495"
+              id="main_product_image" width="550">
+          </div>
+          <div class="thumbnail_images">
+            <!-- foreach all images {{car.pictures}} -->
+            <ul id="thumbnail">
+              <li><img
+                  src="https://stimg.cardekho.com/images/carexteriorimages/930x620/Porsche/Panamera/8329/1623301989193/front-left-side-47.jpg?tr=w-880,h-495"
+                  width="70"></li>
+              <li><img 
+                  src="https://stimg.cardekho.com/images/carexteriorimages/930x620/Porsche/Panamera/8329/1623301989193/front-left-side-47.jpg?tr=w-880,h-495"
+                  width="70"></li>
+              <li><img 
+                  src="https://stimg.cardekho.com/images/carexteriorimages/930x620/Porsche/Panamera/8329/1623301989193/front-left-side-47.jpg?tr=w-880,h-495"
+                  width="70"></li>
+              <li><img 
+                  src="https://stimg.cardekho.com/images/carexteriorimages/930x620/Porsche/Panamera/8329/1623301989193/front-left-side-47.jpg?tr=w-880,h-495"
+                  width="70"></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="p-3 right-side">
+          <div class="d-flex justify-content-between align-items-center">
+            <h3>{{car.brand}} {{car.modelName}}</h3>
+          </div>
+          <h3>{{car.price}} лв.</h3>
+          <div class="d-flex flex-row">
+            Brand: {{car.brand}}
+          </div>
+
+          <div class="d-flex flex-row">
+            Model: {{car.modelName}}
+          </div>
+
+          <div class="d-flex flex-row">
+            Transmission: {{car.transmission}}
+          </div>
+
+          <div class="d-flex flex-row">
+            Type: {{car.type}}
+          </div>
+
+          <div class="d-flex flex-row">
+            Manufacture Year: {{car.manufactureYear}}
+          </div>
+
+          <div class="d-flex flex-row">
+            Emission Standard: {{car.emissionStandard}}
+          </div>
+
+          <div class="d-flex flex-row">
+            Horse Power: {{car.horsePower}} hp
+          </div>
+
+          <div class="d-flex flex-row">
+            Truck Capacity: {{car.truckCapacity}}
+          </div>
+
+          <div class="d-flex flex-row">
+            Color: {{car.color}}
+          </div>
+
+          <div class="buttons d-flex flex-row mt-5 gap-3">
+            <button class="btn btn-outline-dark" (click)="buyCar(car)">Buy Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

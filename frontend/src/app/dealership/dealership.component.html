@@ -1,0 +1,106 @@
+<div class="container">
+  <header>
+    <h3>Dealership: {{dealership.name}}</h3>
+    <div id="divAddCar">
+      <button id="btnAddCar" class="btn btn-success" (click)="showAddCarForm()">Add New Car</button>
+    </div>
+  </header>
+
+  <div class="container-fluid d-flex justify-content-center">
+    <div class="row mt-5">
+      <div>
+        <div class="card" *ngFor="let car of cars">
+          <!-- TODO CHANGE IMAGE to {{car.carPictures[0]?.picturePath}} -->
+          <img
+            src="https://stimg.cardekho.com/images/carexteriorimages/930x620/Porsche/Panamera/8329/1623301989193/front-left-side-47.jpg?tr=w-880,h-495"
+            class="card-img-top" width="100%">
+          <div class="card-body pt-0 px-0">
+            <div class="d-flex flex-row justify-content-between mb-0 px-3">
+              <div>
+                <small class="text-muted mt-1">Brand/Model</small>
+                <h6>{{car.brand}} {{car.modelName}}</h6>
+              </div>
+              <div>
+                <small class="text-muted mt-1">Price</small>
+                <h6>{{car.price}} лв.</h6>
+              </div>
+            </div>
+            <hr class="mt-2 mx-3">
+            <div class="d-flex flex-row justify-content-between px-3 pb-4">
+              <div class="d-flex flex-column"><span class="text-muted">Manufacture Year</span></div>
+              <div class="d-flex flex-column">
+                <h5 class="mb-0">{{car.manufactureYear}}</h5>
+              </div>
+            </div>
+            <div class="d-flex flex-row justify-content-between p-3 mid">
+              <div class="d-flex flex-column"><small class="text-muted mb-1">Type</small>
+                <div class="d-flex flex-row"><img src="https://imgur.com/iPtsG7I.png" width="35px" height="25px">
+                  <div class="d-flex flex-column ml-1"><small class="ghj">{{car.type}}</small></div>
+                </div>
+              </div>
+              <div class="d-flex flex-column"><small class="text-muted mb-2">Horsepower</small>
+                <div class="d-flex flex-row"><img src="https://imgur.com/J11mEBq.png">
+                  <h6 class="ml-1">{{car.horsePower}} hp&ast;</h6>
+                </div>
+              </div>
+            </div>
+            <div class="mx-3 mt-3 mb-2"><button type="button" class="btn btn-danger btn-block"
+                (click)="checkCar($event, car)"><small>Check it</small></button></div>
+
+            <div class="d-flex justify-content-center text-muted"
+              *ngIf="dealershipsForLoggedUser.includes(car.dealership)">
+              <button type="button" class="btn btn-info btn-sm mr-2" (click)="showEditCarForm(car)">Edit</button>
+              <button type="button" class="btn btn-danger btn-sm" (click)="removeCar(car)">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" id="formsContainer">
+    <div class="row">
+      <div class="col-md-12 mt-4">
+        <div class="mt-4">
+          <form *ngIf="carForm">
+            <h2>Add New Car</h2>
+            <p>Model Name: <input type="text" name="modelName" [(ngModel)]="newCar.modelName" /></p>
+            <p>Brand: <input type="text" name="brand" [(ngModel)]="newCar.brand" /></p>
+            <p>Transmission: <input type="transmission" name="brand" [(ngModel)]="newCar.transmission" /></p>
+            <p>Type: <input type="text" name="type" [(ngModel)]="newCar.type" /></p>
+            <p>Color: <input type="text" name="color" [(ngModel)]="newCar.color" /></p>
+            <p>Manufacture Year: <input type="text" name="manufactureYear" [(ngModel)]="newCar.manufactureYear" /></p>
+            <p>Emission Standard: <input type="text" name="emissionStandard" [(ngModel)]="newCar.emissionStandard" />
+            </p>
+            <p>Horse Power: <input type="text" name="horsePower" [(ngModel)]="newCar.horsePower" /></p>
+            <p>Truck Capacity: <input type="text" name="truckCapacity" [(ngModel)]="newCar.truckCapacity" /></p>
+            <p>Price: <input type="text" name="price" [(ngModel)]="newCar.price" /></p>
+            <p>
+              <button type="button" class="btn btn-primary mr-2" (click)="saveCar(newCar)">Submit</button>
+              <button type="button" class="btn btn-warning" (click)="cancelNewCar()">Cancel</button>
+            </p>
+          </form>
+
+          <form *ngIf="editCarForm">
+            <h2>Edit Car Details</h2>
+            <p>Model Name: <input type="text" name="modelName" [(ngModel)]="editedCar.modelName" /></p>
+            <p>Brand: <input type="text" name="brand" [(ngModel)]="editedCar.brand" /></p>
+            <p>Transmission: <input type="transmission" name="brand" [(ngModel)]="editedCar.transmission" /></p>
+            <p>Type: <input type="text" name="type" [(ngModel)]="editedCar.type" /></p>
+            <p>Color: <input type="text" name="color" [(ngModel)]="editedCar.color" /></p>
+            <p>Manufacture Year: <input type="text" name="manufactureYear" [(ngModel)]="editedCar.manufactureYear" />
+            </p>
+            <p>Emission Standard: <input type="text" name="emissionStandard" [(ngModel)]="editedCar.emissionStandard" />
+            </p>
+            <p>Horse Power: <input type="text" name="horsePower" [(ngModel)]="editedCar.horsePower" /></p>
+            <p>Truck Capacity: <input type="text" name="truckCapacity" [(ngModel)]="editedCar.truckCapacity" /></p>
+            <p>Price: <input type="text" name="price" [(ngModel)]="editedCar.price" /></p>
+            <p>
+              <button type="button" class="btn btn-primary mr-2" (click)="updateCar()">Submit</button>
+              <button type="button" class="btn btn-warning" (click)="cancelEdits()">Cancel</button>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
